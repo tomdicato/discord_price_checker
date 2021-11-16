@@ -1,1 +1,1 @@
-worker: python discord_price_checker.py 
+worker: python bot/discord_price_checker.py
