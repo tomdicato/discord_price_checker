@@ -1,0 +1,1 @@
+worker: python bot/discord_price_checker.py
