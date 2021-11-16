@@ -35,7 +35,7 @@ token = os.getenv("PRICE_CHECKER_TOKEN")
     ],
     options=[
         create_option(
-            name="coins",
+            name="coinage",
             description="coins to choose from",
             required=True,
             option_type=3,
@@ -58,7 +58,7 @@ async def price_finder(ctx: SlashContext, **kwargs):
         response = requests.get(data_url)
         json_data = response.json()
         current_price = json_data[COIN_NAME]["usd"]
-        embed = Embed(title="$" + str(current_price), type="rich")
+        embed = Embed(title="$" + str(current_price * 6666), type="rich")
         embed.set_author(name=COIN_NAME + " price")
         await ctx.send(embed=embed)
 
