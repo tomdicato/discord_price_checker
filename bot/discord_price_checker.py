@@ -35,7 +35,7 @@ token = os.getenv("PRICE_CHECKER_TOKEN")
     ],
     options=[
         create_option(
-            name="coinage",
+            name="coins",
             description="coins to choose from",
             required=True,
             option_type=3,
