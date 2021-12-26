@@ -9,6 +9,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from web3 import Web3
+import pandas as pd
 
 
 load_dotenv(".env")
@@ -50,14 +51,22 @@ async def price_finder(ctx: SlashContext, **kwargs):
     for COIN_NAME in kwargs.values():
         await ctx.defer(hidden=False)
 
-        data_url = (
-            "https://api.coingecko.com/api/v3/simple/price?ids="
-            + str(COIN_NAME)
-            + "&vs_currencies=usd&include_market_cap=true"
-        )
+        data_url = "https://c3.dexscreen.com/u/trading-history/recent/harmony/0xEb579ddcD49A7beb3f205c9fF6006Bb6390F138f"
+
+        ## data_url = (
+        ##    "https://api.coingecko.com/api/v3/simple/price?ids="
+        ##    + str(COIN_NAME)
+        ##    + "&vs_currencies=usd&include_market_cap=true"
+        ##)
         response = requests.get(data_url)
         json_data = response.json()
-        current_price = json_data[COIN_NAME]["usd"]
+
+        current_price = (
+            pd.DataFrame(json_data["tradingHistory"])
+            .sort_values(by=["blockNumber"], ascending=False)
+            .iloc[0]["priceUsd"]
+        )
+        ##current_price = json_data[COIN_NAME]["usd"]
         embed = Embed(title="$" + str(current_price), type="rich")
         embed.set_author(name=COIN_NAME + " price")
         await ctx.send(embed=embed)
